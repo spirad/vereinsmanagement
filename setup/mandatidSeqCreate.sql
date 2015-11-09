@@ -1,0 +1,12 @@
+﻿-- Sequence: mandatid
+
+-- DROP SEQUENCE mandatid;
+
+CREATE SEQUENCE mandatid
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 110
+  CACHE 1;
+ALTER TABLE mandatid
+  OWNER TO postgres;
