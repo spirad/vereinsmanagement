@@ -1,0 +1,185 @@
+<div>
+	<hr>
+	<form class="form-horizontal">
+		<fieldset>
+
+			<!-- Form Name -->
+			<legend>Mitglied {{selectedMember.firstName}}
+				{{selectedMember.lastName}}</legend>
+
+			
+			<div class="container" >
+				<form   role="form">
+				   
+					<button  class="btn btn-success"
+						ng-click="toggleReadonly()" ng-disabled="!inReadonlyMode">
+						<span class="glyphicon glyphicon-user"></span> ändern
+					</button>
+				 
+					<placeholder>
+		 
+					<button  class="btn btn-success"
+						ng-click="deleteMember()">
+						<span class="glyphicon glyphicon-remove"></span> löschen
+					</button>
+		 
+					 </form>
+				</div>
+									
+				<!-- </form> -->
+				<hr>
+
+
+			<div class="container">
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="mandatnr">Mandat</label>
+				<div class="col-md-1">
+					<input class="form-control input-md" type="text"
+						ng-model="selectedMember.mandat" readonly="readonly"/>
+				</div>
+			</div>
+
+			<!-- Select Basic -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="anreder">Anrede</label>
+				<div class="col-md-4">
+					<select ng-model="selectedMember.title" id="title" name="title" ng-readonly="inReadonlyMode"
+						class="form-control">
+						<option ng-repeat="item in ['Herr','Frau']" value="{{item}}" 
+						ng-selected="item == selectedMember.title">{{item}}</option>
+					</select>
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="vorname">Vorname</label>
+				<div class="col-md-4">
+					<input ng-model="selectedMember.firstName" id="firstName"
+						name="firstName" type="text" placeholder="Vorname"
+						class="form-control input-md" ng-readonly="inReadonlyMode"/>
+ 
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="textinput">Familienname</label>
+				<div class="col-md-4">
+					<input ng-model="selectedMember.lastName" id="lastName"
+						name="lastName" type="text" placeholder="Familienname"
+						class="form-control input-md" required="" ng-readonly="inReadonlyMode">
+
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="email">email</label>
+				<div class="col-md-4">
+					<input ng-model="selectedMember.email" id="email" name="email"
+						type="text" placeholder="email" value="nicht verhanden"
+						class="form-control input-md" ng-readonly="inReadonlyMode">
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="strasse">Strasse</label>
+				<div class="col-md-4">
+					<input ng_model="selectedMember.street" id="strasse" name="strasse"
+						type="text" placeholder="Strasse" class="form-control input-md" ng-readonly="inReadonlyMode">
+
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="plz">Postleitzahl</label>
+				<div class="col-md-4">
+					<input ng-model="selectedMember.PLZ" id="plz" name="plz" value=""
+						type="text" placeholder="Postleitzahl"
+						class="form-control input-md" ng-readonly="inReadonlyMode">
+
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="telefon">Telefonnummer</label>
+				<div class="col-md-4">
+					<input ng-model="selectedMember.phone" id="telefon" value=""
+						name="telefon" type="text" placeholder="Telefonnummer"
+						class="form-control input-md" ng-readonly="inReadonlyMode">
+
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="telefon">Handy</label>
+				<div class="col-md-4">
+					<input ng-model="selectedMember.cellPhone" value="nicht verhanden"
+						id="telefon" name="Handy" type="text" placeholder="Handy"
+						class="form-control input-md" ng-readonly="inReadonlyMode">
+
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="stadt">Stadt</label>
+				<div class="col-md-4">
+					<input ng-model="selectedMember.city" id="stadt" value=""
+						name="stadt" type="text" placeholder="Stadt"
+						class="form-control input-md" ng-readonly="inReadonlyMode">
+
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="bezahlung">monatlicher
+					Beitrag in Euro</label>
+				<div class="col-md-2">
+					<input ng-model="selectedMember.payment" id="bezahlung"
+						name="bezahlung" type="text"
+						placeholder="monatlicher Beitrag in Euro"
+						class="form-control input-md" required="" ng-readonly="inReadonlyMode">
+
+				</div>
+			</div>
+
+			<!-- Select Basic -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="anreder">Monat
+					der Zahlung</label>
+				<div class="col-md-4">
+				
+					<select ng-model="selectedMember.paymentMonth" id="title" ng-readonly="inReadonlyMode"
+						name="title" class="form-control">
+						<option ng-repeat="item in [1,2,3,4,5,6,7,8,9,10,11,12]" 
+						 value="selectedMember.paymentMonth" ng-selected="item==selectedMember.paymentMonth">{{item}}</option>
+					</select>
+				</div>
+			</div>
+
+			<!-- Textarea -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="Bemerkung">Bemerkung</label>
+				<div class="col-md-4">
+					<textarea ng-model="selectedMember.remark" class="form-control" ng-readonly="inReadonlyMode"
+						id="Bemerkung" name="Bemerkung">Bemerkung</textarea>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+
+	<hr>
+	<button class="btn btn-success" ng-click="saveChangedMember()"
+		ng-disabled="inReadonlyMode">
+		<span class="glyphicon glyphicon-save"></span> Sichern
+	</button>
+
+</div>

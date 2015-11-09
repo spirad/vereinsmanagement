@@ -1,0 +1,61 @@
+<section ng-controller="MemberCtrl">
+ 
+	<div class="container">
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search"
+					ng-model="search">
+			</div>
+			<button class="btn btn-success pull-right"
+				ng-click="selctedMember={};go('/mitglied_neu')">
+				<span class="glyphicon glyphicon-user"></span> Neues Mitglied
+			</button>
+			<hr>
+		</form>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th><a href="#/"
+					ng-click="orderByField='mandat'; reverseSort = !reverseSort">
+						MandatsNr <span ng-show="orderByField == 'mandat'"> <span
+							ng-show="!reverseSort" class="glyphicon glyphicon-arrow-up"
+							aria-hidden="true"></span> <span ng-show="reverseSort"
+							class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+				</a></th>
+
+				<th><a href="#/"
+					ng-click="orderByField='lastName'; reverseSort = !reverseSort">
+						Name <span ng-show="orderByField == 'lastName'"> <span
+							ng-show="!reverseSort" class="glyphicon glyphicon-arrow-up"
+							aria-hidden="true"></span> <span ng-show="reverseSort"
+							class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+				</a></th>
+
+				<th><a href="#/"
+					ng-click="orderByField='firstName'; reverseSort = !reverseSort">
+						Vorname <span ng-show="orderByField == 'firstName'"> <span
+							ng-show="!reverseSort" class="glyphicon glyphicon-arrow-up"
+							aria-hidden="true"></span> <span ng-show="reverseSort"
+							class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+				</a></th>
+				<th><a href="#/"
+					ng-click="orderByField='payment'; reverseSort = !reverseSort">
+						Beitrag <span ng-show="orderByField == 'payment'"> <span
+							ng-show="!reverseSort" class="glyphicon glyphicon-arrow-up"
+							aria-hidden="true"></span> <span ng-show="reverseSort"
+							class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+				</a></th>
+			</tr>
+		</thead>
+		<tr
+			ng-repeat="member in members | filter:search |orderBy:orderByField:reverseSort"
+			ng-click="selectMember(member)">
+			<td>{{member.mandat}}</td>
+			<td>{{member.lastName}}</td>
+			<td>{{member.firstName}}</td>
+			<td>{{member.payment}}</td>
+			
+		</tr>
+	</table>
+</section>
