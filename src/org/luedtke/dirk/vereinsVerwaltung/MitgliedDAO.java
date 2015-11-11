@@ -12,7 +12,7 @@ public class MitgliedDAO {
 	public List<Mitglied> findAll() {
 		List<Mitglied> list = new ArrayList<Mitglied>();
 		Connection c = null;
-		
+
 		String sql = "SELECT m.mandat, m.name, m.vorname, m.beitrag, m.monat, m.eintritt, m.mandat, m.strasse, m.stadt, m.bemerkung, m.status, m.geschlecht, m.titel FROM MITGLIEDER as m " + "ORDER BY m.name, m.vorname";
 
 		try {
@@ -29,7 +29,7 @@ public class MitgliedDAO {
 			DBConnectionHelper.close(c);
 		}
 		return list;
-	}	
+	}
 
 	private Mitglied processSummaryRow(ResultSet rs) {
 		Mitglied mitglied = new Mitglied();
@@ -47,7 +47,7 @@ public class MitgliedDAO {
 			mitglied.setGender(rs.getString("geschlecht"));
 			mitglied.setTitle(rs.getString("titel"));
 			mitglied.setStatus(rs.getString("status"));
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -58,7 +58,7 @@ public class MitgliedDAO {
 		return mitglied.getMandat() > 0 ? update(mitglied) : create(mitglied);
 	}
 
-	
+
 	public Mitglied create(Mitglied mitglied) throws DataBaseException {
 		Connection c = null;
 		PreparedStatement ps = null;
@@ -90,7 +90,7 @@ public class MitgliedDAO {
 		}
 		return mitglied;
 	}
-	
+
 	public Mitglied createBatch(Mitglied mitglied) throws DataBaseException {
 		Connection c = null;
 		PreparedStatement ps = null;
@@ -147,7 +147,7 @@ public class MitgliedDAO {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DataBaseException("Mitglied konnte nicht geändert werden");
+			throw new DataBaseException("Mitglied konnte nicht geaendert werden");
 		} finally {
 			DBConnectionHelper.close(c);
 		}

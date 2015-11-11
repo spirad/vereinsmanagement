@@ -30,8 +30,9 @@
 				<version>2.1</version>
 				<configuration>
 					<url>http://localhost:8080/manager/text</url>
+					<server>TomcatServer</server>
 					<username>admin</username>
-					<password>admin</password>
+					<password>password</password>
 				</configuration>
 			</plugin>
 		</plugins>

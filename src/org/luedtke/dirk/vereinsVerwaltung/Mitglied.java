@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 public class Mitglied {
 
-	
+
 	// Nr.;Name;Vorname;Beitrag;Monat;Beginn;Mandat;Strasse;PLZ;Stadt;sonstiges
 	private int id;
 	private String firstName;
@@ -23,11 +23,11 @@ public class Mitglied {
 	private String remark=" ";
 	private String gender="unbek.";
 	private String status="aktiv";
-	
+
 	public Mitglied() {
-		mandat=0;
+		mandat=0; 
 	}
-	
+
 	public Mitglied(JSONObject jsonObject) {
 		firstName=jsonObject.getString("firstName");
 		lastName=jsonObject.getString("lastName");;
@@ -55,7 +55,7 @@ public class Mitglied {
 	public int getId() {
 		return id;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
