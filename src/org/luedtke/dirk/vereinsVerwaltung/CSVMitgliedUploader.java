@@ -6,18 +6,34 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public class CSVMitgliedUploader {
 
-	private String csvFile = "/temp/mitgliederlist.csv";
+	private static String csvFile = "./mitgliederlist.csv";
 	private static int startDeletedID = 10000;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		String paramCSVFile = "-f";
+		for (int i=0; i <args.length; i++) {
+			if (paramCSVFile.equals(args[i])) {
+					csvFile = args[i+1];
+
+			}
+		}
+		MitgliedDAO mitgliedDAO = new MitgliedDAO();
+		CSVMitgliedUploader csvUploader = new CSVMitgliedUploader(csvFile);
+		ArrayList<Mitglied> mitglieder = (ArrayList<Mitglied>) csvUploader.getMitgleiderList();
+		Iterator<Mitglied> iterator = mitglieder.iterator();
+		while (iterator.hasNext()) {
+			mitgliedDAO.createBatch((Mitglied)iterator.next());
+		}
+
 
 	}
 
 	public CSVMitgliedUploader(String fileName) {
+		System.out.println("Uploading file " +csvFile);
 		csvFile = fileName;
 	}
 
@@ -76,7 +92,7 @@ public class CSVMitgliedUploader {
 					System.out.println("got: " + column[i]);
 					m.setRemark(column[i]);
 				}
-				
+
 				mitgliederList.add(m);
 			}
 
