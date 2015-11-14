@@ -39,7 +39,7 @@ public class DBContentSetup {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 
 			sql = "CREATE TABLE APPINFO " + " (VERSION        TEXT    NOT NULL, " + " INFO           TEXT    NOT NULL, "
 					+ " DATE           TEXT    NOT NULL, " + " COMMENT         TEXT)";
@@ -65,7 +65,7 @@ public class DBContentSetup {
 		}
 		System.out.println("Table created successfully");
 	}
-	
+
 	private static void createMitgliederTable() {
 
 		try {
@@ -84,22 +84,22 @@ public class DBContentSetup {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			sql = "DROP SEQUENCE if EXISTS mandatid;";
 			stmt = c.createStatement();
 			stmt.executeUpdate(sql);
 			stmt.close();
 			System.out.println("Sequence MandatId dropped...");
-			
+
 			sql = "CREATE SEQUENCE mandatid START 109;";
 			stmt = c.createStatement();
 			stmt.executeUpdate(sql);
 			stmt.close();
 			System.out.println("Sequence MandatId created...");
-			
+
 			// Nr.;Name;Vorname;Beitrag;Monat;Beginn;Mandat;Strasse;PLZ;Stadt;sonstiges
-			sql = "CREATE TABLE MITGLIEDER " 
-			+ " (MANDAT        integer PRIMARY KEY DEFAULT nextval('mandatid'), " 
+			sql = "CREATE TABLE MITGLIEDER "
+			+ " (MANDAT        integer PRIMARY KEY DEFAULT nextval('mandatid'), "
 			+ " NAME       varchar(40) NOT NULL CHECK (name <> ''), "
 			+ " VORNAME    varchar(40) , "
 			+ " TITEL      varchar(40) , "
@@ -119,7 +119,7 @@ public class DBContentSetup {
 			stmt.close();
 			System.out.println("MITGLIEDER TABLE successfully created ...");
 
-			
+
 			MitgliedDAO mitgliedDAO = new MitgliedDAO();
 			CSVMitgliedUploader csvUploader = new CSVMitgliedUploader("c:/temp/mitglieder.csv");
 			ArrayList<Mitglied> mitglieder = (ArrayList<Mitglied>) csvUploader.getMitgleiderList();

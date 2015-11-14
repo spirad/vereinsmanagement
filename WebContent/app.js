@@ -8,16 +8,17 @@ Vereinsverwaltung.controller('MemberCtrl', function($scope, $http, $uibModal,
 
 	$http.get('/Vereinsverwaltung/verein/mitglieder').success(function(data) {
 		$scope.members = data.mitglieder;
-		// console.log($scope.members);
+		//console.log($scope.members);
 	})
 
 	$scope.selectedMember = memberService.member;
+	$scope.newMember = {};
 	$scope.selectMember = function(member) {
 		memberService.member = member;
 		console.log("selected memeber: " + $scope.selectedMember);
 		$scope.go('/mitglied_edit');
 	}
-	
+
 	$scope.saveNewMember = function(member) {
 		memberService.member = member;
 		console.log("new memeber: " + $scope.selectedMember);
@@ -63,7 +64,7 @@ Vereinsverwaltung.controller('MemberCtrl', function($scope, $http, $uibModal,
 		function(response) {
 			memberService.member = {};
 			$route.reload();
-			$scope.go('/');			
+			$scope.go('/');
 		},
 		// error callback
 		function(response) {
@@ -83,35 +84,15 @@ Vereinsverwaltung.controller('MemberCtrl', function($scope, $http, $uibModal,
 						+ $scope.selectedMember.lastName).then(
 				function(selectedItem) {
 					if (selectedItem) {
-						$route.reload();
+						$http.delete('/Vereinsverwaltung/verein/mitglieder/delete/'+$scope.selectedMember.mandat).success(function(data) {
+							 console.log("Mitglied gelöscht");
+						})
+						//hier löschen aufrufen
 						$scope.go('/mitglied_neu');
 					} else {
 						$scope.go('/');
 					}
 				})
-		// var promise = memberService.save($scope.newMember);
-		// promise.then(
-		// // success callback
-		// function(response) {
-		// $scope.openJaNeinPopup("lg", response.data.message,
-		// "Soll ein weiterer User angelegt werden?").then(
-		// function(selectedItem) {
-		// if (selectedItem) {
-		// $route.reload();
-		// $scope.go('/mitglied_neu');
-		// } else {
-		// $scope.go('/');
-		// }
-		// })
-		// },
-		// // error callback
-		// function(response) {
-		// $scope.openErrorPopup("lg", "Fehler", response.data.message).then(
-		// function(selectedItem) {
-		// $scope.go('/mitglied_neu');
-		//
-		// })
-		// });
 	}
 
 	$scope.go = function(path) {

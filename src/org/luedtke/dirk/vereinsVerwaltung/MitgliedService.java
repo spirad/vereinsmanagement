@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -34,7 +35,7 @@ public class MitgliedService {
 		//Response response=new Response();
 		//response.setCharacterEncoding("UTF-8");
 		JSONObject jsonObject = new JSONObject();
-		Iterator<Mitglied> daoIterator = dao.findAll().iterator();
+		Iterator<Mitglied> daoIterator = dao.findAllActive().iterator();
 		assertTrue(daoIterator.hasNext());
 		while (daoIterator.hasNext()) {
 			Mitglied m = daoIterator.next();
@@ -77,6 +78,29 @@ public class MitgliedService {
 			// Response.status(Status.BAD_REQUEST).entity(returnJSON.toString()).build();
 		}
 		System.out.println("JSON Received: " + jsonObject.toString());
+		return Response.status(returnStatus).entity(returnJSON.toString()).build();
+	}
+	
+	@Path("/delete/{mandat}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public Response deleteMembers(@PathParam("mandat") int mandatid) {
+		System.out.println("Deleting mandat: " + mandatid);
+		JSONObject returnJSON = new JSONObject();
+		Status returnStatus = Status.OK;
+		Mitglied m  = dao.findByMandatID(mandatid);
+		try {			
+			m.setStatus(Mitglied.STATUS_INACTIVE);
+			dao.save(m);
+			returnJSON.put("message",
+					"Mitglied " + m.getFirstName() + " " + m.getLastName() + " gelöscht.");
+			returnStatus = Status.OK;	
+		} catch (DataBaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnJSON.put("message", e.getMessage());
+			returnStatus = Status.BAD_REQUEST;
+		}	
 		return Response.status(returnStatus).entity(returnJSON.toString()).build();
 	}
 

@@ -9,11 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MitgliedDAO {
-	public List<Mitglied> findAll() {
+	
+	public List<Mitglied> findAll(String whereClause) {
 		List<Mitglied> list = new ArrayList<Mitglied>();
 		Connection c = null;
 
-		String sql = "SELECT m.mandat, m.name, m.vorname, m.beitrag, m.monat, m.eintritt, m.mandat, m.strasse, m.stadt, m.bemerkung, m.status, m.geschlecht, m.titel FROM MITGLIEDER as m " + "ORDER BY m.name, m.vorname";
+		String sql = "SELECT m.mandat, m.name, m.vorname, m.beitrag, m.monat, m.eintritt, m.mandat, m.strasse, m.PLZ, m.stadt, m.bemerkung, m.status, m.geschlecht, m.titel FROM MITGLIEDER as m ";// + "ORDER BY m.name, m.vorname ";
+		sql = sql + whereClause;
+		
+		System.out.println(sql);
 
 		try {
 			c = DBConnectionHelper.getConnection();
@@ -31,6 +35,38 @@ public class MitgliedDAO {
 		return list;
 	}
 
+	public List<Mitglied> findAll( ) {
+		return findAll();
+	}
+	
+	public List<Mitglied> findAllActive( ) {
+		return findAll(" WHERE m.status = '"+Mitglied.STATUS_ACTIVE+"'");
+	}
+		
+	
+	public Mitglied findByMandatID(int mandatID) {
+		//List<Mitglied> list = new ArrayList<Mitglied>();
+		Mitglied mitglied = new Mitglied();
+		Connection c = null;
+
+		String sql = "SELECT m.mandat, m.name, m.vorname, m.beitrag, m.monat, m.eintritt, m.mandat, m.strasse, m.PLZ, m.stadt, m.bemerkung, m.status, m.geschlecht, m.titel FROM MITGLIEDER as m " + "WHERE m.mandat="+String.valueOf(mandatID);
+
+		try {
+			c = DBConnectionHelper.getConnection();
+			Statement s = c.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			while (rs.next()) {
+				mitglied = processSummaryRow(rs);
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			DBConnectionHelper.close(c);
+		}
+		return mitglied;
+	}
+	
 	private Mitglied processSummaryRow(ResultSet rs) {
 		Mitglied mitglied = new Mitglied();
 		try {
@@ -42,6 +78,7 @@ public class MitgliedDAO {
 			mitglied.setEntryYear(rs.getInt("eintritt"));
 			mitglied.setMandat(rs.getInt("mandat"));
 			mitglied.setStreet(rs.getString("strasse"));
+			mitglied.setPLZ(rs.getString("PLZ"));
 			mitglied.setCity(rs.getString("stadt"));
 			mitglied.setRemark(rs.getString("bemerkung"));
 			mitglied.setGender(rs.getString("geschlecht"));
@@ -66,18 +103,19 @@ public class MitgliedDAO {
 			c = DBConnectionHelper.getConnection();
 			System.out.println("prepare create statement");
 			ps = c.prepareStatement(
-					"INSERT INTO MITGLIEDER (NAME, VORNAME, BEITRAG, MONAT, EINTRITT, STRASSE, STADT, BEMERKUNG, TITEL, GESCHLECHT, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO MITGLIEDER (NAME, VORNAME, BEITRAG, MONAT, EINTRITT, STRASSE, PLZ, STADT, BEMERKUNG, TITEL, GESCHLECHT, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, mitglied.getLastName());
 			ps.setString(2, mitglied.getFirstName());
 			ps.setFloat(3, mitglied.getPayment());
 			ps.setInt(4, mitglied.getPaymentMonth());
 			ps.setInt(5, mitglied.getEntryYear());
 			ps.setString(6, mitglied.getStreet());
-			ps.setString(7, mitglied.getCity());
-			ps.setString(8, mitglied.getRemark());
-			ps.setString(9, mitglied.getTitle());
-			ps.setString(10, mitglied.getGender());
-			ps.setString(11, mitglied.getStatus());
+			ps.setString(7, mitglied.getPLZ());
+			ps.setString(8, mitglied.getCity());
+			ps.setString(9, mitglied.getRemark());
+			ps.setString(10, mitglied.getTitle());
+			ps.setString(11, mitglied.getGender());
+			ps.setString(12, mitglied.getStatus());
 			//System.out.println("before excecute");
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
@@ -98,7 +136,8 @@ public class MitgliedDAO {
 			c = DBConnectionHelper.getConnection();
 			System.out.println("prepare create statement");
 			ps = c.prepareStatement(
-					"INSERT INTO MITGLIEDER (NAME, VORNAME, BEITRAG, MONAT, EINTRITT, MANDAT, STRASSE, STADT, BEMERKUNG, TITEL, GESCHLECHT, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO MITGLIEDER (NAME, VORNAME, BEITRAG, MONAT, EINTRITT, MANDAT, STRASSE, PLZ, STADT, BEMERKUNG, TITEL, GESCHLECHT, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			
 			ps.setString(1, mitglied.getLastName());
 			ps.setString(2, mitglied.getFirstName());
 			ps.setFloat(3, mitglied.getPayment());
@@ -106,12 +145,13 @@ public class MitgliedDAO {
 			ps.setInt(5, mitglied.getEntryYear());
 			ps.setInt(6, mitglied.getMandat());
 			ps.setString(7, mitglied.getStreet());
-			ps.setString(8, mitglied.getCity());
-			ps.setString(9, mitglied.getRemark());
-			ps.setString(10, mitglied.getTitle());
-			ps.setString(11, mitglied.getGender());
-			ps.setString(12, mitglied.getStatus());
-			//System.out.println("before excecute");
+			ps.setString(8, mitglied.getPLZ());
+			ps.setString(9, mitglied.getCity());
+			ps.setString(10, mitglied.getRemark());
+			ps.setString(11, mitglied.getTitle());
+			ps.setString(12, mitglied.getGender());
+			ps.setString(13, mitglied.getStatus());
+			System.out.println("before excecute " + ps.toString());
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
@@ -130,19 +170,20 @@ public class MitgliedDAO {
 			c = DBConnectionHelper.getConnection();
 			System.out.println("prepare update statement");
 			PreparedStatement ps = c.prepareStatement(
-					"UPDATE MITGLIEDER SET NAME=?, VORNAME=?, BEITRAG=?, MONAT=?, EINTRITT=?, STRASSE=?, STADT=?, BEMERKUNG=?, TITEL=?, GESCHLECHT=?, STATUS=? WHERE mandat=?");
+					"UPDATE MITGLIEDER SET NAME=?, VORNAME=?, BEITRAG=?, MONAT=?, EINTRITT=?, STRASSE=?, PLZ=?, STADT=?, BEMERKUNG=?, TITEL=?, GESCHLECHT=?, STATUS=? WHERE mandat=?");
 			ps.setString(1, mitglied.getLastName());
 			ps.setString(2, mitglied.getFirstName());
 			ps.setFloat(3, mitglied.getPayment());
 			ps.setInt(4, mitglied.getPaymentMonth());
 			ps.setInt(5, mitglied.getEntryYear());
 			ps.setString(6, mitglied.getStreet());
-			ps.setString(7, mitglied.getCity());
-			ps.setString(8, mitglied.getRemark());
-			ps.setString(9, mitglied.getTitle());
-			ps.setString(10, mitglied.getGender());
-			ps.setString(11, mitglied.getStatus());
-			ps.setInt(12, mitglied.getMandat());
+			ps.setString(7, mitglied.getPLZ());
+			ps.setString(8, mitglied.getCity());
+			ps.setString(9, mitglied.getRemark());
+			ps.setString(10, mitglied.getTitle());
+			ps.setString(11, mitglied.getGender());
+			ps.setString(12, mitglied.getStatus());
+			ps.setInt(13, mitglied.getMandat());
 			System.out.println(ps.toString());
 			ps.executeUpdate();
 		} catch (SQLException e) {

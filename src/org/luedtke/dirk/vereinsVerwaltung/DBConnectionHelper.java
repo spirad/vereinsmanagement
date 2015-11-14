@@ -21,7 +21,7 @@ public class DBConnectionHelper {
     	String driver = null;
 		try {
 			Class.forName("org.postgresql.Driver");
-			url = "jdbc:postgresql:verein?user=postgres&password=admin";
+			url = "jdbc:postgresql:verein?user=verein_manager&password=verein";
             ResourceBundle bundle = ResourceBundle.getBundle("application");
             driver = bundle.getString("jdbc.driver");
             Class.forName(driver);

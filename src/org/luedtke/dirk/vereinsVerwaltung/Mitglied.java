@@ -5,7 +5,9 @@ import org.json.JSONObject;
 public class Mitglied {
 
 
-	// Nr.;Name;Vorname;Beitrag;Monat;Beginn;Mandat;Strasse;PLZ;Stadt;sonstiges
+	public static final String STATUS_ACTIVE="aktiv";
+	public static final String STATUS_INACTIVE="inaktiv";
+	
 	private int id;
 	private String firstName;
 	private String lastName;
@@ -22,7 +24,7 @@ public class Mitglied {
 	private String PLZ;
 	private String remark=" ";
 	private String gender="unbek.";
-	private String status="aktiv";
+	private String status=STATUS_ACTIVE;
 
 	public Mitglied() {
 		mandat=0; 
