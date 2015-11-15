@@ -6,14 +6,34 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public class CSVMitgliedUploader {
 
-	private String csvFile = "/temp/mitgliederlist.csv";
+	private static String csvFile = "./mitgliederlist.csv";
 	private static int startDeletedID = 10000;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		String paramCSVFile = "-f";
+		for (int i=0; i <args.length; i++) {
+			if (paramCSVFile.equals(args[i])) {
+					csvFile = args[i+1];
+					System.out.println("Uploading file " +csvFile);
+			}
+		}
+		MitgliedDAO mitgliedDAO = new MitgliedDAO();
+		CSVMitgliedUploader csvUploader = new CSVMitgliedUploader(csvFile);
+		ArrayList<Mitglied> mitglieder = (ArrayList<Mitglied>) csvUploader.getMitgleiderList();
+		Iterator<Mitglied> iterator = mitglieder.iterator();
+		while (iterator.hasNext()) {
+			try {
+				mitgliedDAO.createBatch((Mitglied)iterator.next());
+			} catch (DataBaseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 
 	}
 
@@ -46,6 +66,10 @@ public class CSVMitgliedUploader {
 				System.out.println("got: " + column[i]);
 				m.setFirstName(column[i]);
 				i++;
+				//title
+				System.out.println("got: " + column[i]);
+				m.setTitle(column[i]);
+				i++;
 				System.out.println("got: " + column[i]);
 				m.setPayment(Float.parseFloat(column[i]));
 				i++;
@@ -57,7 +81,7 @@ public class CSVMitgliedUploader {
 				i++;
 				System.out.println("got: " + column[i]);
 				if (Integer.parseInt(column[i]) == 9999) {
-					m.setStatus("ausgetreten");
+					m.setStatus(Mitglied.STATUS_INACTIVE);
 					m.setMandat(startDeletedID++);
 				}
 				else m.setMandat(Integer.parseInt(column[i]));
@@ -76,20 +100,19 @@ public class CSVMitgliedUploader {
 					System.out.println("got: " + column[i]);
 					m.setRemark(column[i]);
 				}
-				
+
 				mitgliederList.add(m);
 			}
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(2);
 		} finally {
 			if (br != null) {
 				try {
 					br.close();
+					
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
