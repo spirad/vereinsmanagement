@@ -66,6 +66,10 @@ public class CSVMitgliedUploader {
 				System.out.println("got: " + column[i]);
 				m.setFirstName(column[i]);
 				i++;
+				//title
+				System.out.println("got: " + column[i]);
+				m.setTitle(column[i]);
+				i++;
 				System.out.println("got: " + column[i]);
 				m.setPayment(Float.parseFloat(column[i]));
 				i++;
