@@ -14,7 +14,8 @@ public class MitgliedDAO {
 		List<Mitglied> list = new ArrayList<Mitglied>();
 		Connection c = null;
 
-		String sql = "SELECT m.mandat, m.name, m.vorname, m.beitrag, m.monat, m.eintritt, m.mandat, m.strasse, m.PLZ, m.stadt, m.bemerkung, m.status, m.geschlecht, m.titel FROM MITGLIEDER as m ";// + "ORDER BY m.name, m.vorname ";
+		String sql = "SELECT m.mandat, m.name, m.vorname, m.beitrag, m.monat, m.eintritt, m.mandat, m.strasse, "
+				+ "m.plz, m.stadt, m.bemerkung, m.status, m.geschlecht, m.titel FROM MITGLIEDER as m ";// + "ORDER BY m.name, m.vorname ";
 		sql = sql + whereClause;
 		
 		System.out.println(sql);
@@ -36,7 +37,7 @@ public class MitgliedDAO {
 	}
 
 	public List<Mitglied> findAll( ) {
-		return findAll();
+		return findAll("");
 	}
 	
 	public List<Mitglied> findAllActive( ) {
@@ -92,7 +93,9 @@ public class MitgliedDAO {
 	}
 
 	public Mitglied save(Mitglied mitglied) throws DataBaseException {
-		return mitglied.getMandat() > 0 ? update(mitglied) : create(mitglied);
+		if (mitglied.getMandat() == Mitglied.NO_MANDAT_GIVEN) return createMandateSet(mitglied); 
+		if (mitglied.getMandat() == Mitglied.GENERATE_MANDAT) return create(mitglied);
+		return update(mitglied);
 	}
 
 
@@ -129,7 +132,7 @@ public class MitgliedDAO {
 		return mitglied;
 	}
 
-	public Mitglied createBatch(Mitglied mitglied) throws DataBaseException {
+	public Mitglied createMandateSet(Mitglied mitglied) throws DataBaseException {
 		Connection c = null;
 		PreparedStatement ps = null;
 		try {
@@ -194,47 +197,6 @@ public class MitgliedDAO {
 		}
 		return mitglied;
 	}
-	//
-	// public boolean remove(Employee employee) {
-	// Connection c = null;
-	// try {
-	// c = ConnectionHelper.getConnection();
-	// PreparedStatement ps = c.prepareStatement("DELETE FROM employee WHERE
-	// id=?");
-	// ps.setInt(1, employee.getId());
-	// int count = ps.executeUpdate();
-	// return count == 1;
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// throw new RuntimeException(e);
-	// } finally {
-	// ConnectionHelper.close(c);
-	// }
-	// }
-	//
-	// protected Mitglied processRow(ResultSet rs) throws SQLException {
-	// Mitglied mitglied = new Mitglied();
-	// employee.setId(rs.getInt("id"));
-	// employee.setFirstName(rs.getString("firstName"));
-	// employee.setLastName(rs.getString("lastName"));
-	// employee.setTitle(rs.getString("title"));
-	// employee.setDepartment(rs.getString("department"));
-	// employee.setCity(rs.getString("city"));
-	// employee.setOfficePhone(rs.getString("officePhone"));
-	// employee.setCellPhone(rs.getString("cellPhone"));
-	// employee.setEmail(rs.getString("email"));
-	// employee.setPicture(rs.getString("picture"));
-	// int managerId = rs.getInt("managerId");
-	// if (managerId > 0) {
-	// Employee manager = new Employee();
-	// manager.setId(managerId);
-	// manager.setFirstName(rs.getString("managerFirstName"));
-	// manager.setLastName(rs.getString("managerLastName"));
-	// employee.setManager(manager);
-	// }
-	// employee.setReportCount(rs.getInt("reportCount"));
-	// return employee;
-	// }
-	//
+
 
 }

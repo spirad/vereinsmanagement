@@ -8,26 +8,31 @@ Vereinsverwaltung.controller('MemberCtrl', function($scope, $http, $uibModal,
 
 	$http.get('/Vereinsverwaltung/verein/mitglieder').success(function(data) {
 		$scope.members = data.mitglieder;
-		//console.log($scope.members);
+		// console.log($scope.members);
 	})
 
 	$scope.selectedMember = memberService.member;
 	$scope.newMember = {};
 	$scope.selectMember = function(member) {
 		memberService.member = member;
-		console.log("selected memeber: " + $scope.selectedMember);
+		console.log("selected member: " + memberService.member);
 		$scope.go('/mitglied_edit');
 	}
 
-	$scope.saveNewMember = function(member) {
+	$scope.formInvalid = 0;
+	$scope.saveNewMember = function(member, formName) {
 		memberService.member = member;
-		console.log("new memeber: " + $scope.selectedMember);
+		if (formName.$invalid) {
+			$scope.formInvalid =1;
+			return;
+		}
+			
 		var promise = memberService.save();
 		promise.then(
 		// success callback
 		function(response) {
 			$scope.openJaNeinPopup("lg", response.data.message,
-					"Soll ein weiterer User angelegt werden?").then(
+					"Soll ein weiteres Mitglied angelegt werden?").then(
 					function(selectedItem) {
 						if (selectedItem) {
 							memberService.member = {};
@@ -49,6 +54,7 @@ Vereinsverwaltung.controller('MemberCtrl', function($scope, $http, $uibModal,
 
 	}
 
+	$scope.newMember.mandat_given=1;
 	$scope.inReadonlyMode = 1;
 	$scope.toggleReadonly = function() {
 		// if ($scope.readonly =="readonly") $scope.readonly = "";
@@ -57,7 +63,8 @@ Vereinsverwaltung.controller('MemberCtrl', function($scope, $http, $uibModal,
 	}
 
 	$scope.saveChangedMember = function() {
-		//if (!memberService.member) memberService.member = $scope.selectedMember;
+		// if (!memberService.member) memberService.member =
+		// $scope.selectedMember;
 		var promise = memberService.save();
 		promise.then(
 		// success callback
@@ -86,14 +93,13 @@ Vereinsverwaltung.controller('MemberCtrl', function($scope, $http, $uibModal,
 					if (selectedItem) {
 						$http.delete('/Vereinsverwaltung/verein/mitglieder/delete/'+$scope.selectedMember.mandat).success(function(data) {
 							 console.log("Mitglied gelöscht");
-						})
-						//hier löschen aufrufen
-						$scope.go('/mitglied_neu');
+						});
+						$scope.go('/');
 					} else {
 						$scope.go('/');
 					}
-				})
-	}
+				});
+	};
 
 	$scope.go = function(path) {
 		$location.path(path);
@@ -103,7 +109,7 @@ Vereinsverwaltung.controller('MemberCtrl', function($scope, $http, $uibModal,
 		$http.get('/Vereinsverwaltung/verein/mandatnr').success(function(data) {
 			data.mandatNr;
 		})
-	}
+	};
 
 	$scope.animationsEnabled = true;
 
@@ -168,8 +174,10 @@ Vereinsverwaltung.factory("memberService", function($http) {
 		save : function() {
 			console.log(this.member);
 			var data = encodeURIComponent(JSON.stringify({
-				mandat : (this.member.mandat == undefined) ? 0
+				mandat : (this.member.madat == undefined) ? 0
 						: this.member.mandat,
+				mandat_given : (this.member.mandat_given == undefined) ? 0
+								: 1,
 				title : (this.member.title == undefined) ? ""
 						: this.member.title,
 				firstName : (this.member.firstName == undefined) ? ""
@@ -187,15 +195,15 @@ Vereinsverwaltung.factory("memberService", function($http) {
 				payment : this.member.payment,
 				entryYear : this.getYear(),
 				PLZ : (this.member.PLZ == undefined) ? "" : this.member.PLZ,
-				remark : (this.member.street == undefined) ? "nichts"
+				remark : (this.member.remark == undefined) ? "kein Kommentar"
 						: this.member.remark,
-				status : (this.member.status == undefined) ? "unbek."
+				status : (this.member.status == undefined) ? "aktiv"
 						: this.member.status,
 				geschlecht : (this.member.geschlecht == undefined) ? "unbek."
 						: this.member.geschlecht,
 				paymentMonth : this.member.paymentMonth
 			}));
-			console.log(data);
+			//console.log(data);
 			return $http
 					.post("/Vereinsverwaltung/verein/mitglieder/save", data);
 		}

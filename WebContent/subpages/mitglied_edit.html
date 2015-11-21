@@ -30,12 +30,20 @@
 				<hr>
 
 
-			<div class="container">
+			<!-- Multiple Radios -->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="mandatnr">Mandat</label>
-				<div class="col-md-1">
-					<input class="form-control input-md" type="text"
-						ng-model="selectedMember.mandat" readonly="readonly"/>
+				<label class="col-md-4 control-label" for="radios">Einzugserm&aumlchtigung</label>
+				<div class="col-md-4">
+					<div class="radio">
+						<label for="radios-0"> <input ng-model="newMember.mandat_given" type="radio" name="radios"
+							id="mandat_given" value="1" checked="checked"> erteilt
+						</label>
+					</div>
+					<div class="radio">
+						<label for="radios-1"> <input type="radio" name="radios"
+							id="radios-1" value="2"> nicht erteilt
+						</label>
+					</div>
 				</div>
 			</div>
 
@@ -160,6 +168,29 @@
 						name="title" class="form-control">
 						<option ng-repeat="item in [1,2,3,4,5,6,7,8,9,10,11,12]" 
 						 value="selectedMember.paymentMonth" ng-selected="item==selectedMember.paymentMonth">{{item}}</option>
+					</select>
+				</div>
+			</div>
+			
+			<!-- Select Basic -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="anreder">Monat
+					der Zahlung</label>
+				<div class="col-md-4">
+					<select ng-model="selectedMember.paymentMonth" id="title" name="title"
+						class="form-control">
+						<option value="1">Januar</option>
+						<option value="2">Februar</option>
+						<option value="3">M&aumlrz</option>
+						<option value="4">April</option>
+						<option value="5">Mai</option>
+						<option value="6">Juni</option>
+						<option value="7">Juli</option>
+						<option value="8">August</option>
+						<option value="9">September</option>
+						<option value="10">Oktober</option>
+						<option value="11">November</option>
+						<option value="12">Dezember</option>
 					</select>
 				</div>
 			</div>

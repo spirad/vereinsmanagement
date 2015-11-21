@@ -43,8 +43,7 @@ CREATE TABLE mitglieder
   stadt     character varying(40),
   status character varying(40),
   bemerkung character varying(100),
-  CONSTRAINT mitglieder_pkey PRIMARY KEY (mandat),
-  CONSTRAINT uc_personid UNIQUE (name, vorname),
+  CONSTRAINT mitglieder_pkey PRIMARY KEY (name, vorname, mandat),
   CONSTRAINT mitglieder_name_check CHECK (name::text <> ''::text)
 )
 WITH (

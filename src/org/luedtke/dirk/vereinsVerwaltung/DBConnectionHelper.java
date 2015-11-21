@@ -22,9 +22,13 @@ public class DBConnectionHelper {
 		try {
 			Class.forName("org.postgresql.Driver");
 			url = "jdbc:postgresql:verein?user=verein_manager&password=verein";
+			System.out.println("reading Application Properties");
             ResourceBundle bundle = ResourceBundle.getBundle("application");
+            
             driver = bundle.getString("jdbc.driver");
+            System.out.println("reading Driver name: " +driver);
             Class.forName(driver);
+            System.out.println("Driver instance created");
             url=bundle.getString("jdbc.url");
 		} catch (Exception e) {
 			e.printStackTrace();

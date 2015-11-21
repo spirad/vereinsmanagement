@@ -125,7 +125,7 @@ public class DBContentSetup {
 			ArrayList<Mitglied> mitglieder = (ArrayList<Mitglied>) csvUploader.getMitgleiderList();
 			Iterator<Mitglied> iterator = mitglieder.iterator();
 			while (iterator.hasNext()) {
-				mitgliedDAO.createBatch((Mitglied)iterator.next());
+				mitgliedDAO.createMandateSet((Mitglied)iterator.next());
 			}
 
 			c.close();

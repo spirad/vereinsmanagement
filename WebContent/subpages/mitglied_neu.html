@@ -1,19 +1,37 @@
 <div>
 	<hr>
-	<form class="form-horizontal">
+	<form id="neuesMitgliedForm" name="neuesMitgliedForm" class="form-horizontal" novalidate>
 		<fieldset>
 
 			<!-- Form Name -->
 			<legend>Neues Mitglied anlegen.</legend>
 
+<!-- 			<div class="form-group"> -->
+<!-- 				<label class="col-md-4 control-label" for="mandat">Mandat</label> -->
+<!-- 				<div class="col-md-1"> -->
+<!-- 					<input class="form-control input-md" type="text" -->
+<!-- 						ng-model="newMember.mandat" readonly="readonly" /> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+
+			<!-- Multiple Radios -->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="mandat">Mandat</label>
-				<div class="col-md-1">
-					<input class="form-control input-md" type="text"
-						ng-model="newMember.mandat" readonly="readonly" />
+				<label class="col-md-4 control-label" for="radios">Einzugserm&aumlchtigung</label>
+				<div class="col-md-4">
+					<div class="radio">
+						<label for="radios-0"> <input ng-model="newMember.mandat_given" type="radio" name="radios"
+							id="mandat_given" value="1" checked="checked"> erteilt
+						</label>
+<!-- 					</div> -->
+<!-- 					<div class="radio"> -->
+						<label for="radios-1"> <input type="radio" name="radios"
+							id="radios-1" ng-model="newMember.mandat_given" value="0"> nicht erteilt
+						</label>
+					</div>
 				</div>
 			</div>
-			<!-- Select Basic -->
+
+			<!-- Select Basic -->	
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="anreder">Anrede</label>
 				<div class="col-md-4">
@@ -24,7 +42,6 @@
 					</select>
 				</div>
 			</div>
-
 			<!-- Text input-->
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="vorname">Vorname</label>
@@ -32,30 +49,27 @@
 					<input ng-model="newMember.firstName" id="firstName"
 						name="firstName" type="text" placeholder="Vorname"
 						class="form-control input-md">
-
 				</div>
 			</div>
-
 			<!-- Text input-->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="textinput">Familienname</label>
+				<label class="col-md-4 control-label" for="textinput">Familienname*</label>
 				<div class="col-md-4">
 					<input ng-model="newMember.lastName" id="lastName" name="lastName"
 						type="text" placeholder="Familienname"
-						class="form-control input-md" required="">
+						class="form-control input-md" required  ng-minlength=1>
 
 				</div>
 			</div>
-
 			<!-- Text input-->
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="email">email</label>
 				<div class="col-md-4">
 					<input ng-model="newMember.email" id="email" name="email"
-						type="text" placeholder="email" value="nicht verhanden" class="form-control input-md">
+						type="text" placeholder="email" value="nicht verhanden"
+						class="form-control input-md">
 				</div>
 			</div>
-
 			<!-- Text input-->
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="strasse">Strasse</label>
@@ -65,38 +79,16 @@
 
 				</div>
 			</div>
-
 			<!-- Text input-->
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="plz">Postleitzahl</label>
 				<div class="col-md-4">
-					<input ng-model="newMember.PLZ" id="plz" name="plz" value="" type="text"
-						placeholder="Postleitzahl" class="form-control input-md">
-
-				</div>
-			</div>
-
-			<!-- Text input-->
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="telefon">Telefonnummer</label>
-				<div class="col-md-4">
-					<input ng-model="newMember.phone" id="telefon" value="" name="telefon"
-						type="text" placeholder="Telefonnummer"
+					<input ng-model="newMember.PLZ" id="plz" name="plz" value=""
+						type="text" placeholder="Postleitzahl"
 						class="form-control input-md">
 
 				</div>
 			</div>
-
-			<!-- Text input-->
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="telefon">Handy</label>
-				<div class="col-md-4">
-					<input ng-model="newMember.cellPhone" value="nicht verhanden" id="telefon" name="Handy"
-						type="text" placeholder="Handy" class="form-control input-md">
-
-				</div>
-			</div>
-
 			<!-- Text input-->
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="stadt">Stadt</label>
@@ -106,29 +98,48 @@
 
 				</div>
 			</div>
-
+			
 			<!-- Text input-->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="bezahlung">monatlicher
-					Beitrag in Euro</label>
-				<div class="col-md-2">
-					<input ng-model="newMember.payment" id="bezahlung" name="bezahlung"
-						type="text" placeholder="monatlicher Beitrag in Euro"
-						class="form-control input-md" required="">
+				<label class="col-md-4 control-label" for="telefon">Telefonnummer</label>
+				<div class="col-md-4">
+					<input ng-model="newMember.phone" id="telefon" value=""
+						name="telefon" type="text" placeholder="Telefonnummer"
+						class="form-control input-md">
 
 				</div>
 			</div>
-
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="telefon">Handy</label>
+				<div class="col-md-4">
+					<input ng-model="newMember.cellPhone" value="nicht verhanden"
+						id="telefon" name="Handy" type="text" placeholder="Handy"
+						class="form-control input-md">
+				</div>
+			</div>
+			
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="bezahlung">j&aumlrlicher
+					Beitrag in Euro*</label>
+				<div class="col-md-2">
+					<input ng-model="newMember.payment" id="bezahlung" name="bezahlung"
+						type="text" placeholder="Beitrag"
+						class="form-control input-md" required>
+				</div>
+			</div>
+			
 			<!-- Select Basic -->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="anreder">Monat
-					der Zahlung</label>
+				<label class="col-md-4 control-label" for="Monat">Monat
+					der Zahlung*</label>
 				<div class="col-md-4">
 					<select ng-model="newMember.paymentMonth" id="title" name="title"
 						class="form-control">
 						<option value="1">Januar</option>
 						<option value="2">Februar</option>
-						<option value="3">M�rz</option>
+						<option value="3">M&aumlrz</option>
 						<option value="4">April</option>
 						<option value="5">Mai</option>
 						<option value="6">Juni</option>
@@ -141,7 +152,8 @@
 					</select>
 				</div>
 			</div>
-
+			
+			
 			<!-- Textarea -->
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="Bemerkung">Bemerkung</label>
@@ -150,13 +162,12 @@
 						id="Bemerkung" name="Bemerkung">Bemerkung</textarea>
 				</div>
 			</div>
-
 		</fieldset>
 	</form>
 
 	<hr>
-	<button class="btn btn-success" ng-click="saveNewMember(newMember)"
-		ng-disabled="error || incomplete">
+	<div ng-show="formInvalid" class="alert alert-danger" role="alert">Bitte alle mit * gekennzeichneten Felder ausf&uumlllen.</div>	
+	<button class="btn btn-success" ng-click="saveNewMember(newMember, neuesMitgliedForm)">
 		<span class="glyphicon glyphicon-save"></span> Sichern
 	</button>
 	<div>

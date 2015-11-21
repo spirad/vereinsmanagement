@@ -7,6 +7,8 @@ public class Mitglied {
 
 	public static final String STATUS_ACTIVE="aktiv";
 	public static final String STATUS_INACTIVE="inaktiv";
+	public static int NO_MANDAT_GIVEN=-1;
+	public static int GENERATE_MANDAT=0;
 	
 	private int id;
 	private String firstName;
@@ -21,10 +23,15 @@ public class Mitglied {
 	private int paymentMonth;
 	private int entryYear;
 	private int mandat;
+	private int mandatGiven=0;
+	
+
 	private String PLZ;
 	private String remark=" ";
 	private String gender="unbek.";
 	private String status=STATUS_ACTIVE;
+	
+	
 
 	public Mitglied() {
 		mandat=0; 
@@ -47,7 +54,9 @@ public class Mitglied {
 		remark=jsonObject.getString("remark");
 		status=jsonObject.getString("status");
 		gender=jsonObject.getString("geschlecht");
-		mandat=jsonObject.getInt("mandat");
+		//mandat=jsonObject.getInt("mandat");
+		mandatGiven =jsonObject.getInt("mandat_given");
+		mandat= (mandatGiven == 1) ? GENERATE_MANDAT : NO_MANDAT_GIVEN;
 	}
 
 	public void setId(int id) {
@@ -56,6 +65,14 @@ public class Mitglied {
 
 	public int getId() {
 		return id;
+	}
+	
+	public int getMandatGiven() {
+		return mandatGiven;
+	}
+
+	public void setMandatGiven(int mandatGiven) {
+		this.mandatGiven = mandatGiven;
 	}
 
 	public String getFirstName() {

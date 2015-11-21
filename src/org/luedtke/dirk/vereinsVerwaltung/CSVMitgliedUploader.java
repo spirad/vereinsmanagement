@@ -27,7 +27,7 @@ public class CSVMitgliedUploader {
 		Iterator<Mitglied> iterator = mitglieder.iterator();
 		while (iterator.hasNext()) {
 			try {
-				mitgliedDAO.createBatch((Mitglied)iterator.next());
+				mitgliedDAO.createMandateSet((Mitglied)iterator.next());
 			} catch (DataBaseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
