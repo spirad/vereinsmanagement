@@ -18,11 +18,7 @@ public class CSVMitgliedUploader {
 		for (int i=0; i <args.length; i++) {
 			if (paramCSVFile.equals(args[i])) {
 					csvFile = args[i+1];
-<<<<<<< HEAD
 					System.out.println("Uploading file " +csvFile);
-=======
-
->>>>>>> f0325055b3de8edf05b6455a72d91e33137ddb85
 			}
 		}
 		MitgliedDAO mitgliedDAO = new MitgliedDAO();
@@ -30,16 +26,13 @@ public class CSVMitgliedUploader {
 		ArrayList<Mitglied> mitglieder = (ArrayList<Mitglied>) csvUploader.getMitgleiderList();
 		Iterator<Mitglied> iterator = mitglieder.iterator();
 		while (iterator.hasNext()) {
-<<<<<<< HEAD
 			try {
 				mitgliedDAO.createBatch((Mitglied)iterator.next());
 			} catch (DataBaseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-=======
 			mitgliedDAO.createBatch((Mitglied)iterator.next());
->>>>>>> f0325055b3de8edf05b6455a72d91e33137ddb85
 		}
 
 
