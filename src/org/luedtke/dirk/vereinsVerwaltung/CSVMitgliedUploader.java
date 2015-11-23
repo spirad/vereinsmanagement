@@ -32,12 +32,14 @@ public class CSVMitgliedUploader {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			mitgliedDAO.createBatch((Mitglied)iterator.next());
 		}
 
 
 	}
 
 	public CSVMitgliedUploader(String fileName) {
+		System.out.println("Uploading file " +csvFile);
 		csvFile = fileName;
 	}
 
