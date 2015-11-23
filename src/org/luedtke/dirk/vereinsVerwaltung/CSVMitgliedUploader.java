@@ -32,7 +32,7 @@ public class CSVMitgliedUploader {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			mitgliedDAO.createMandateSet((Mitglied)iterator.next());
+			//mitgliedDAO.createMandateSet((Mitglied)iterator.next());
 		}
 
 
